@@ -18,3 +18,18 @@ set incsearch
 " 不换行
 set nowrap
 
+
+" TAB 宽度
+set tabstop=4
+set softtabstop=4
+
+set expandtab
+" 删除空格缩进很方便
+set smarttab
+
+" 一次缩进量
+" 如果设置为 6 则相当于 <tab><space><space>
+set shiftwidth=4
+
+
+
