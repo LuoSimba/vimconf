@@ -1,15 +1,16 @@
 
 " Usage:
-" in your .vimrc, add a line like:
+" in your .vimrc, add lines like:
 " 
-" source E:/vimconf/all.vim
+" let $VIMCONF="E:/vimconf"
+" source $VIMCONF/all.vim
 " 
 
 " echo "hello"
 
 set nocompatible
 
-source encoding.vim
+source $VIMCONF/encoding.vim
 
-source gui.vim
+source $VIMCONF/gui.vim
 

@@ -13,5 +13,5 @@ set number
 " 配色方案
 colorscheme darkblue
 
-source gui-font.vim
+source $VIMCONF/gui-font.vim
 
