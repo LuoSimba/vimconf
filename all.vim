@@ -14,5 +14,7 @@ source $VIMCONF/encoding.vim
 
 source $VIMCONF/edit.vim
 
+source $VIMCONF/filetype.vim
+
 source $VIMCONF/gui.vim
 
