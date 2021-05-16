@@ -10,3 +10,8 @@ set guioptions+=b
 " 显示行号
 set number
 
+" 配色方案
+colorscheme darkblue
+
+source gui-font.vim
+
