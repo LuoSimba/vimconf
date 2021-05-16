@@ -5,9 +5,9 @@
 " source E:/vimconf/all.vim
 " 
 
+" echo "hello"
+
 set nocompatible
 
-" default is cp936
-set encoding=utf-8
+source encoding.vim
 
-" echo "hello"
