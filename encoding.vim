@@ -15,3 +15,8 @@ source $VIMRUNTIME/delmenu.vim
 set langmenu=en_US
 source $VIMRUNTIME/menu.vim
 
+
+
+" BOM
+set nobomb
+
