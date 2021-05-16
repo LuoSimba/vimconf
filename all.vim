@@ -12,5 +12,7 @@ set nocompatible
 
 source $VIMCONF/encoding.vim
 
+source $VIMCONF/edit.vim
+
 source $VIMCONF/gui.vim
 
