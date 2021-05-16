@@ -11,3 +11,5 @@ set nocompatible
 
 source encoding.vim
 
+source gui.vim
+
