@@ -1,11 +1,9 @@
 
 
-" 没有菜单栏
-" 没有工具栏
-set guioptions-=mT
-
-" 增加底部滚动条
-set guioptions+=b
+" 没有菜单栏 m
+" 没有工具栏 T
+" 增加底部滚动条 b
+set guioptions=egrLtb
 
 " 显示行号
 set number
