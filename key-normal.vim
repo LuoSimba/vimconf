@@ -25,6 +25,9 @@ nnoremap <C-l> :BufExplorer<CR>
 nnoremap <C-v> "+gP
 
 
+" 目录树
+nnoremap <F2> :NERDTreeToggle<CR>
+
 
 
 
