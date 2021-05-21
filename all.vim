@@ -16,6 +16,7 @@ source $VIMCONF/edit.vim
 
 source $VIMCONF/filetype.vim
 
+source $VIMCONF/key-mapleader.vim
 source $VIMCONF/key-normal.vim
 
 source $VIMCONF/gui.vim
