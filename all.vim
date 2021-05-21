@@ -22,5 +22,8 @@ source $VIMCONF/key-normal.vim
 source $VIMCONF/gui.vim
 source $VIMCONF/gui-font.vim
 
+set runtimepath^=$VIMCONF/vimfiles
+
+
 finish
 
