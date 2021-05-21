@@ -16,3 +16,16 @@ if has('gui')
         nnoremap <M-Space> :simalt ~<CR>
 endif
 
+
+" 使用到了 BufExplorer 插件的命令
+nnoremap <C-l> :BufExplorer<CR>
+
+" key(gP) just like key(p), but leave the cursor
+" just after the new text.
+nnoremap <C-v> "+gP
+
+
+
+
+
+
