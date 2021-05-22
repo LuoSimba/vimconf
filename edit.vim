@@ -31,5 +31,6 @@ set smarttab
 " 如果设置为 6 则相当于 <tab><space><space>
 set shiftwidth=4
 
-
+" 不自动添加文件末尾的换行，不自动修正
+set nofixeol
 
