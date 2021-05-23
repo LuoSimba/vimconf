@@ -10,6 +10,8 @@
 
 set nocompatible
 
+set runtimepath^=$VIMCONF/vimfiles
+
 source $VIMCONF/encoding.vim
 
 source $VIMCONF/edit.vim
@@ -19,9 +21,9 @@ source $VIMCONF/filetype.vim
 source $VIMCONF/key-mapleader.vim
 source $VIMCONF/key-normal.vim
 source $VIMCONF/key-visual.vim
+source $VIMCONF/key-insert.vim
 
 
-set runtimepath^=$VIMCONF/vimfiles
 
 
 source $VIMCONF/gui.vim

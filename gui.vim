@@ -10,4 +10,10 @@ set number
 
 " 配色方案
 colorscheme ningbo
+"colorscheme hangzhou
+"colorscheme dreamweaver3
+
+
+" space between lines (pixel)
+set linespace=2
 
