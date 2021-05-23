@@ -32,5 +32,7 @@ set smarttab
 set shiftwidth=4
 
 " 不自动添加文件末尾的换行，不自动修正
-set nofixeol
+if exists('&fixeol')
+    set nofixeol
+endif
 

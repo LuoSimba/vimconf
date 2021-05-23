@@ -1,0 +1,50 @@
+
+
+:h options
+
+查看如何设置 vim
+
+
+
+:options
+
+open a new window to view and set options, grouped by
+functionality, a one line explanation and links to 
+the help.
+
+
+:h option-list
+
+当前 vim 可支持的所有设置项
+An overview of options.
+
+
+Type of options:
+    1. boolean 
+    2. number
+    3. string
+
+
+:set
+
+Show all options that differ from their default value.
+
+:set {option}?
+:set wrap?
+
+Show value of {option}.
+
+
+Hidden options
+
+Not all options are supported in all versions.
+This depends on the supported features and 
+sometimes on the system.
+
+To test if option "foo" can be used with ":set"
+use something like this:
+
+    if exists('&foo')
+
+
+
