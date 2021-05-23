@@ -31,5 +31,10 @@ source $VIMCONF/gui-font.vim
 
 
 
+source $VIMCONF/mysql.vim
+source $VIMCONF/php.vim
+
+
+
 finish
 
