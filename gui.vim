@@ -9,5 +9,5 @@ set guioptions=egrLtb
 set number
 
 " 配色方案
-colorscheme darkblue
+colorscheme ningbo
 
