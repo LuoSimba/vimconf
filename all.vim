@@ -29,7 +29,7 @@ source $VIMCONF/key-insert.vim
 source $VIMCONF/gui.vim
 source $VIMCONF/gui-font.vim
 
-
+source $VIMCONF/command.vim
 
 source $VIMCONF/mysql.vim
 source $VIMCONF/php.vim
