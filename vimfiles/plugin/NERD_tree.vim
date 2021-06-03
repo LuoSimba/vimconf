@@ -92,7 +92,6 @@ let s:NERDTreeStatusline =
     \ "%{exists('b:NERDTreeRoot')?b:NERDTreeRoot.path.str():''}"
     \ . "%{b:NERDTreeFilterEnabled?' (-f)':''}"
 
-let s:NERDTreeWinPos = "left" | " 树窗口位置, 只要不是 left 就当作 right 来处理
 let s:NERDTreeWinSize = 31     | " 树窗口的宽度
 
 "init the shell commands that will be used to copy nodes, and remove dir trees
@@ -178,6 +177,11 @@ function! s:GetAbsolutePath(str)
         return a:str
     endif
 endfunction
+
+function s:CountWindow()
+    return winnr("$")
+endfunction 
+
 
 " FUNCTION: s:toggleFilter()
 " 过滤只对文件有效, 不过滤文件夹
@@ -1213,6 +1217,7 @@ endfunction
 "ARGS:
 "treenode: file node to open
 function! s:TreeFileNode.open()
+
     if b:NERDTreeType ==# "secondary"
         exec 'edit ' . self.path.str({'format': 'Edit'})
         return
@@ -1256,40 +1261,18 @@ function! s:TreeFileNode.openSplit()
     let savesplitbelow=&splitbelow
     let savesplitright=&splitright
 
-    " 'there' will be set to a command to move from the split window
-    " back to the explorer window
-    "
-    " 'back' will be set to a command to move from the explorer window
-    " back to the newly split window
-    "
-    " 'right' and 'below' will be set to the settings needed for
-    " splitbelow and splitright IF the explorer is the only window.
-    "
-    let there= s:NERDTreeWinPos ==# "left" ? "wincmd h" : "wincmd l"
-    let back = s:NERDTreeWinPos ==# "left" ? "wincmd l" : "wincmd h"
-    let right= s:NERDTreeWinPos ==# "left"
-    let below=0
-
     " Attempt to go to adjacent window
-    call s:exec(back)
+    call s:exec('wincmd l')
 
-    let onlyOneWin = (winnr("$") ==# 1)
+    let onlyOneWin = (s:CountWindow() ==# 1)
 
-    " If no adjacent window, set splitright and splitbelow appropriately
-    if onlyOneWin
-        let &splitright=right
-        let &splitbelow=below
-    else
-        " found adjacent window - invert split direction
-        let &splitright=!right
-        let &splitbelow=!below
-    endif
-
-    let splitMode = onlyOneWin ? "vertical" : ""
+    " XX If no adjacent window, set splitright and splitbelow appropriately
+    let &splitright=1
+    let &splitbelow=0
 
     " Open the new window
     try
-        exec(splitMode." sp " . self.path.str({'format': 'Edit'}))
+        exec("vertical sp " . self.path.str({'format': 'Edit'}))
     catch /^Vim\%((\a\+)\)\=:E37/
         call s:putCursorInTreeWin()
         throw "NERDTree.FileAlreadyOpenAndModifiedError: ". self.path.str() ." is already open and modified."
@@ -1300,8 +1283,12 @@ function! s:TreeFileNode.openSplit()
     "resize the tree window if no other window was open before
     if onlyOneWin
         let size = exists("b:NERDTreeOldWindowSize") ? b:NERDTreeOldWindowSize : s:NERDTreeWinSize
-        call s:exec(there)
-        exec("silent ". splitMode ." resize ". size)
+
+        " 回到左边窗口
+        call s:exec('wincmd h')
+        " 调整窗口大小
+        exec("silent vertical resize ". size)
+        " 回到原来窗口
         call s:exec('wincmd p')
     endif
 
@@ -1309,6 +1296,9 @@ function! s:TreeFileNode.openSplit()
     let &splitbelow=savesplitbelow
     let &splitright=savesplitright
 endfunction
+
+
+
 "FUNCTION: TreeFileNode.openVSplit() {{{3
 "Open this node in a new vertical window
 function! s:TreeFileNode.openVSplit()
@@ -2927,15 +2917,14 @@ endfunction
 "options etc
 function! s:createTreeWin()
     "create the nerd tree window
-    let splitLocation = s:NERDTreeWinPos ==# "left" ? "topleft " : "botright "
     let splitSize = s:NERDTreeWinSize
 
     if !exists('t:NERDTreeBufName')
         let t:NERDTreeBufName = s:nextBufferName()
-        silent! exec splitLocation . 'vertical ' . splitSize . ' new'     | " topleft vertical 31 new
+        silent! exec 'topleft vertical ' . splitSize . ' new'     | " topleft vertical 31 new
         silent! exec "edit " . t:NERDTreeBufName
     else
-        silent! exec splitLocation . 'vertical ' . splitSize . ' split'
+        silent! exec 'topleft vertical ' . splitSize . ' split'
         silent! exec "buffer " . t:NERDTreeBufName
     endif
 
