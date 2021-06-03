@@ -614,9 +614,6 @@ NERD tree. These options should be set in your vimrc.
 
 |'NERDTreeBookmarksFile'|       Where the bookmarks are stored.
 
-|'NERDTreeMouseMode'|           Tells the NERD tree how to handle mouse
-                                clicks.
-
 |'NERDTreeQuitOnOpen'|          Closes the tree window after opening a file.
 
 |'NERDTreeShowBookmarks'|       Tells the NERD tree whether to display the
@@ -782,24 +779,6 @@ Values: a path
 Default: $HOME/.NERDTreeBookmarks
 
 This is where bookmarks are saved. See |NERDTreeBookmarkCommands|.
-
-------------------------------------------------------------------------------
-                                                       *'NERDTreeMouseMode'*
-Values: 1, 2 or 3.
-Default: 1.
-
-If set to 1 then a double click on a node is required to open it.
-If set to 2 then a single click will open directory nodes, while a double
-click will still be required for file nodes.
-If set to 3 then a single click will open any node.
-
-Note: a double click anywhere on a line that a tree node is on will
-activate it, but all single-click activations must be done on name of the node
-itself. For example, if you have the following node: >
-    | | |-application.rb
-<
-then (to single click activate it) you must click somewhere in
-'application.rb'.
 
 ------------------------------------------------------------------------------
                                                         *'NERDTreeQuitOnOpen'*

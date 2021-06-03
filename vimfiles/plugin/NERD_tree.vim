@@ -8,10 +8,14 @@ scriptencoding cp936
 " Version:     4.1.0.m (修改过)
 " ============================================================================
 
+" 防止重复加载
 if exists("g:loaded_nerd_tree")
     finish
 endif
 let g:loaded_nerd_tree = 1
+
+
+
 " TODO
 let g:running_windows = 1
 
@@ -30,7 +34,7 @@ let s:old_cpo = &cpo
 set cpo&vim
 
 
-let s:running_windows = has('win16') || has('win32') || has('win64')
+let s:running_windows = has('win32') || has('win64')
 
 
 "Function: s:initVariable() function {{{2
@@ -60,7 +64,6 @@ call s:initVariable("g:NERDTreeCaseSensitiveSort", 0)
 call s:initVariable("g:NERDTreeChDirMode", 0)
 call s:initVariable("g:NERDTreeBookmarksFile", expand('$HOME') . '/.NERDTreeBookmarks')
 call s:initVariable("g:NERDTreeHijackNetrw", 1)
-call s:initVariable("g:NERDTreeMouseMode", 1)
 call s:initVariable("g:NERDTreeNotificationThreshold", 100)
 call s:initVariable("g:NERDTreeQuitOnOpen", 0)
 call s:initVariable("g:NERDTreeShowBookmarks", 0)  " 是否显示书签
@@ -906,6 +909,7 @@ endfunction
 "classes.
 "============================================================
 let s:TreeFileNode = {}
+
 "FUNCTION: TreeFileNode.activate(forceKeepWinOpen) {{{3
 function! s:TreeFileNode.activate(forceKeepWinOpen)
     call self.open()
@@ -913,6 +917,8 @@ function! s:TreeFileNode.activate(forceKeepWinOpen)
         call s:closeTreeIfQuitOnOpen()
     end
 endfunction
+
+
 "FUNCTION: TreeFileNode.bookmark(name) {{{3
 "bookmark this node with a:name
 function! s:TreeFileNode.bookmark(name)
@@ -2670,7 +2676,6 @@ function! s:initNerdTree(name)
     call newRoot.open()
 
     call s:createTreeWin()    " 创建目录树窗口
-    let b:treeShowHelp = 0
     let b:NERDTreeFilterEnabled = 1
     let b:NERDTreeShowFiles = g:NERDTreeShowFiles
     let b:NERDTreeShowHidden = g:NERDTreeShowHidden
@@ -2722,7 +2727,6 @@ function! s:initNerdTreeInPlace(dir)
 
     call s:setupStatusline()
 
-    let b:treeShowHelp = 0
     let b:NERDTreeFilterEnabled = 1
     let b:NERDTreeShowFiles = g:NERDTreeShowFiles
     let b:NERDTreeShowHidden = g:NERDTreeShowHidden
@@ -2828,11 +2832,13 @@ endfunction
 function! s:treeExistsForBuf()
     return exists("b:NERDTreeRoot")
 endfunction
+
 " Function: s:treeExistsForTab()   {{{2
 " Returns 1 if a nerd tree root exists in the current tab
 function! s:treeExistsForTab()
     return exists("t:NERDTreeBufName")
 endfunction
+
 " Function: s:unique(list)   {{{2
 " returns a:list without duplicates
 function! s:unique(list)
@@ -2966,9 +2972,9 @@ function s:dumpHelp()
     " 保存旧值
     let old_h = @h
 
-    if b:treeShowHelp ==# 1
+    if 1
         let @h = "; 文件节点映射~\n" .
-        \ "; " . (g:NERDTreeMouseMode ==# 3 ? "single" : "double") . "-click,\n" .
+        \ "; double-click,\n" .
         \ "; <CR>,\n"
 
         let @h .= (b:NERDTreeType ==# "primary") ?
@@ -2989,7 +2995,7 @@ function s:dumpHelp()
 
         let @h .= ";\n; ----------------------------\n"
         \ . "; 文件夹节点映射~\n"
-        \ . "; ". (g:NERDTreeMouseMode ==# 1 ? "double" : "single") ."-click,\n"
+        \ . "; double-click,\n"
         \ . "; ". g:NERDTreeMapActivateNode .": open & close node\n"
         \ . "; ". g:NERDTreeMapOpenRecursively .": recursively open node\n"
         \ . "; ". g:NERDTreeMapCloseDir .": close parent of node\n"
@@ -3554,6 +3560,7 @@ function! s:stripMarkupFromLine(line, removeLeadingSpaces)
     return line
 endfunction
 
+
 "FUNCTION: s:toggle(dir) {{{2
 "Toggles the NERD tree. I.e the NERD tree is open, it is closed, if it is
 "closed it is restored or initialized (if it doesnt exist)
@@ -3575,6 +3582,9 @@ function! s:toggle(dir)
         call s:initNerdTree(a:dir)
     endif
 endfunction
+
+
+
 "SECTION: Interface bindings {{{1
 "============================================================
 "FUNCTION: s:activateNode(forceKeepWindowOpen) {{{2
@@ -3703,12 +3713,8 @@ function! s:checkForActivate()
             endif
         endif
 
-        if (g:NERDTreeMouseMode ==# 2 && currentNode.path.isDirectory) || g:NERDTreeMouseMode ==# 3
-            if char !~ s:tree_markup_reg && startToCur !~ '\/$'
-                call s:activateNode(0)
-                return
-            endif
-        endif
+        "if char !~ s:tree_markup_reg && startToCur !~ '\/$'
+        "endif
     endif
 endfunction
 
@@ -3830,7 +3836,6 @@ endfunction " }}}
 " 函数: s:displayHelp() {{{2
 " toggles the help display
 function s:displayHelp()
-    let b:treeShowHelp = !b:treeShowHelp " 0或者1
     call s:renderView()
     call s:centerView()
 endfunction " }}}
