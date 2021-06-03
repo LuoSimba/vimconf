@@ -485,14 +485,6 @@ for changes and represent them in the tree.
 If a file node is selected then the above is done on it's parent.
 
 ------------------------------------------------------------------------------
-                                                                  *NERDTree-R*
-Default key: R
-Map option: NERDTreeMapRefreshRoot
-Applies to: no restrictions.
-
-Recursively refresh the tree root.
-
-------------------------------------------------------------------------------
                                                                   *NERDTree-m*
 Default key: m
 Map option: NERDTreeMapMenu

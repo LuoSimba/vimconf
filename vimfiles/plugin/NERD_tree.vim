@@ -108,7 +108,6 @@ endif
 
 "SECTION: Init variable calls for key mappings {{{2
 call s:initVariable("g:NERDTreeMapActivateNode", 'g<Tab>')
-call s:initVariable("g:NERDTreeMapPreview", '<Space>')
 call s:initVariable("g:NERDTreeMapChangeRoot", "C")
 call s:initVariable("g:NERDTreeMapChdir", "cd")
 call s:initVariable("g:NERDTreeMapCloseChildren", "X")
@@ -129,7 +128,6 @@ call s:initVariable("g:NERDTreeMapOpenVSplit", "s")
 call s:initVariable("g:NERDTreeMapPreviewSplit", "g" . NERDTreeMapOpenSplit)
 call s:initVariable("g:NERDTreeMapPreviewVSplit", "g" . NERDTreeMapOpenVSplit)
 call s:initVariable("g:NERDTreeMapRefresh", "r")
-call s:initVariable("g:NERDTreeMapRefreshRoot", "R")
 call s:initVariable("g:NERDTreeMapToggleBookmarks", "B")
 call s:initVariable("g:NERDTreeMapToggleFiles", "F")
 call s:initVariable("g:NERDTreeMapToggleFilters", "f")
@@ -2982,7 +2980,7 @@ function s:dumpHelp()
         \ ("; ". g:NERDTreeMapActivateNode .": open in current window\n")
 
         if b:NERDTreeType ==# "primary"
-            let @h .= "; ". g:NERDTreeMapPreview .": preview\n"
+            let @h .= "; <Space>: preview\n"
         endif
 
         let @h .= "; ". g:NERDTreeMapOpenInTab.": 在新标签页打开\n" .
@@ -3028,7 +3026,7 @@ function s:dumpHelp()
         \ . "; ". g:NERDTreeMapUpdirKeepOpen .": move tree root up a dir\n"
         \ . ";    but leave old root open\n"
         \ . "; ". g:NERDTreeMapRefresh .": 刷新光标所在目录\n"
-        \ . "; ". g:NERDTreeMapRefreshRoot .": 刷新\n"
+        \ . "; R: 刷新\n"
         \ . "; m: 显示菜单\n"
         \ . "; ". g:NERDTreeMapChdir .":切换 CWD\n"
 
@@ -3052,7 +3050,6 @@ function s:dumpHelp()
         \ . "; 其他映射~\n"
         \ . "; q: 关闭窗口\n"
         \ . "; ". g:NERDTreeMapToggleZoom .": 最大化窗口\n"
-        \ . "; <F1>: 帮助\n"
         \ . ";\n; ----------------------------\n"
         \ . "; 书签命令~\n"
         \ . "; :Bookmark <name>\n"
@@ -3620,7 +3617,8 @@ function! s:bindMappings()
     exec "nnoremap <silent> <buffer> ". g:NERDTreeMapOpenSplit ." :call <SID>openEntrySplit(0,0)<cr>"
     exec "nnoremap <silent> <buffer> <cr> :call <SID>activateNode(0)<cr>"
 
-    exec "nnoremap <silent> <buffer> ". g:NERDTreeMapPreview ." :call <SID>previewNode(0)<cr>"
+    nnoremap <silent> <buffer> <Space> :call <SID>previewNode(0)<cr>
+
     exec "nnoremap <silent> <buffer> ". g:NERDTreeMapPreviewSplit ." :call <SID>previewNode(1)<cr>"
 
     exec "nnoremap <silent> <buffer> ". g:NERDTreeMapOpenVSplit ." :call <SID>openEntrySplit(1,0)<cr>"
@@ -3635,11 +3633,10 @@ function! s:bindMappings()
     exec "nnoremap <silent> <buffer> ". g:NERDTreeMapChdir ." :call <SID>chCwd()<cr>"
 
     nnoremap <silent> <buffer> q :call <SID>closeTreeWindow()<cr>
+    nnoremap <silent> <buffer> R :call <SID>refreshRoot<cr>
 
-    exec "nnoremap <silent> <buffer> ". g:NERDTreeMapRefreshRoot ." :call <SID>refreshRoot()<cr>"
     exec "nnoremap <silent> <buffer> ". g:NERDTreeMapRefresh ." :call <SID>refreshCurrent()<cr>"
 
-    nnoremap <silent> <buffer> <F1> :call <SID>displayHelp()<cr>
     exec "nnoremap <silent> <buffer> ". g:NERDTreeMapToggleZoom ." :call <SID>toggleZoom()<cr>"
     exec "nnoremap <silent> <buffer> ". g:NERDTreeMapToggleHidden ." :call <SID>toggleShowHidden()<cr>"
     exec "nnoremap <silent> <buffer> ". g:NERDTreeMapToggleFilters ." :call <SID>toggleFilter()<cr>"
@@ -3833,13 +3830,6 @@ function! s:deleteBookmark()
 
 endfunction " }}}
 
-" 函数: s:displayHelp() {{{2
-" toggles the help display
-function s:displayHelp()
-    call s:renderView()
-    call s:centerView()
-endfunction " }}}
-
 " FUNCTION: s:handleMiddleMouse() {{{2
 function! s:handleMiddleMouse()
     let curNode = s:TreeFileNode.GetSelected()
@@ -3994,8 +3984,9 @@ endfunction
 
 " FUNCTION: s:previewNode() {{{2
 "Args:
-"   openNewWin: if 0, use the previous window, if 1 open in new split, if 2
-"               open in a vsplit
+"   openNewWin: if 0, use the previous window,
+"               if 1 open in new split,
+"               if 2 open in a vsplit
 function! s:previewNode(openNewWin)
     let currentBuf = bufnr("")
     if a:openNewWin > 0
